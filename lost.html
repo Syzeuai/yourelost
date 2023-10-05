@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>You're Lost.</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+            background-image: url(''); /* 初始时背景为空 */
+        }
+        .typing-animation {
+            font-family: "Arial", sans-serif; /* 选择合适的字体 */
+            font-size: 48px; /* 增大字体大小 */
+            white-space: nowrap; /* 防止文本换行 */
+            color: #fff; /* 白色文本颜色 */
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* 外发光效果 */
+        }
+        .typing-animation::after {
+            content: '|'; /* 光标符号 */
+            animation: blink 0.7s infinite; /* 光标闪烁动画 */
+        }
+        @keyframes blink {
+            0%, 100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="typing-animation" id="text"></div>
+    <script>
+        // JavaScript代码
+        const textElement = document.getElementById('text');
+        const text = "You're Lost.";
+        let index = 0;
+
+        function type() {
+            if (index < text.length) {
+                textElement.textContent += text.charAt(index);
+                index++;
+                setTimeout(type, 100); // 控制每个字符的显示速度
+            } else {
+                textElement.classList.add('typed');
+                setRandomBackground();
+            }
+        }
+
+        function setRandomBackground() {
+            fetch('https://picsum.photos/1920/1080', { redirect: 'follow' }) // 获取随机图片
+                .then(response => {
+                    if (response.ok) {
+                        document.body.style.backgroundImage = `url(${response.url})`; // 将图片设置为背景
+                    }
+                });
+        }
+
+        type();
+    </script>
+</body>
+</html>
